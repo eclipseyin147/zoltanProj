@@ -10,6 +10,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DJSON_DIAGNOSTICS=1")
 project(zoltan LANGUAGES CXX C)
 
 find_package(metis CONFIG REQUIRED)
+find_package(parmetis CONFIG REQUIRED)
 find_package(MPI REQUIRED)
 
 
@@ -757,6 +758,7 @@ elseif (UNIX)
           MPI::MPI_CXX
           MPI::MPI_C
           metis
+          parmetis
   )
 
 
