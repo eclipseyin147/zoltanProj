@@ -8,6 +8,10 @@
       "version>=": "2022-07-27"
     },
     {
+      "name": "parmetis",
+      "version>=": "2022-07-27"
+    },
+    {
       "name": "pthreads",
       "version>=": "3.0.0#14"
     }
