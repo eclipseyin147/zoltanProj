@@ -741,7 +741,7 @@ file(GLOB_RECURSE EXPORT_HEADERS
         "${PROJECT_SOURCE_DIR}/include/*.h"
 )
 
-add_library(${PROJECT_NAME} SHARED ${SOURCES})
+add_library(${PROJECT_NAME} STATIC ${SOURCES})
 
 if(WIN32)
     find_package(PThreads4W REQUIRED)
