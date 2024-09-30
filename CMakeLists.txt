@@ -791,6 +791,11 @@ install(EXPORT ${PROJECT_NAME}
         FILE "${PROJECT_NAME}Config.cmake"
         DESTINATION "lib/cmake/")
 
+install(EXPORT "${PROJECT_NAME}"
+        FILE "${PROJECT_NAME}.cmake"
+        NAMESPACE ${PROJECT_NAME}::
+        DESTINATION lib/cmake/)
+
 #install(FILES ${EXPORT_HEADERS}
 #        DESTINATION include
 #)
