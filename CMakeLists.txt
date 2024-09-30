@@ -773,7 +773,7 @@ endif ()
 target_include_directories(${PROJECT_NAME} PRIVATE ${ZOLTAN_HEADERS})
 
 
-install(FILES ${LIB_INCLUDE_FILES}
+install(FILES ${EXPORT_HEADERS}
         DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
 
 
