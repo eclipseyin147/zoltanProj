@@ -750,6 +750,7 @@ if(WIN32)
             MPI::MPI_C
             metis
             PThreads4W::PThreads4W
+            parmetis
     )
 
 elseif (UNIX)
