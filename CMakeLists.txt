@@ -773,14 +773,30 @@ endif ()
 target_include_directories(${PROJECT_NAME} PRIVATE ${ZOLTAN_HEADERS})
 
 
+install(FILES ${LIB_INCLUDE_FILES}
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/include)
 
-install(FILES ${EXPORT_HEADERS}
-        DESTINATION include
-)
 
-install(TARGETS ${PROJECT_NAME}
+install(TARGETS ${PROJECT_NAME} ${PROJECT_NAME}
         EXPORT ${PROJECT_NAME}
         INCLUDES DESTINATION "include"
 )
-install(EXPORT ${PROJECT_NAME}  FILE "zoltanConfig.cmake" DESTINATION "share/zoltan")
+
+install(EXPORT "${PROJECT_NAME}"
+        FILE "${PROJECT_NAME}.cmake"
+        NAMESPACE ${PROJECT_NAME}::
+        DESTINATION lib/cmake/)
+
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+        DESTINATION lib/cmake/)
+
+#install(FILES ${EXPORT_HEADERS}
+#        DESTINATION include
+#)
+#
+#install(TARGETS ${PROJECT_NAME}
+#        EXPORT ${PROJECT_NAME}
+#        INCLUDES DESTINATION "include"
+#)
+#install(EXPORT ${PROJECT_NAME}  FILE "zoltanConfig.cmake" DESTINATION "share/zoltan")
 
