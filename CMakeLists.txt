@@ -782,7 +782,7 @@ install(FILES ${LIB_INCLUDE_FILES}
 #        INCLUDES DESTINATION "include"
 #)
 
-install(EXPORT "${PROJECT_NAME}"
+install(EXPORT ${PROJECT_NAME}
         FILE "${PROJECT_NAME}.cmake"
         NAMESPACE ${PROJECT_NAME}::
         DESTINATION lib/cmake/)
