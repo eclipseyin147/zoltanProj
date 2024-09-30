@@ -6,6 +6,7 @@
 // SPDX-License-Identifier: BSD-3-Clause
 // *****************************************************************************
 // @HEADER
+#if WIN32
 
 #include <time.h>
 #include <Winsock2.h> /* to get timeval struct */
@@ -57,3 +58,4 @@ static int gettimeofday(struct timeval *tv, struct timezone *tz)
 }
 
 
+#endif

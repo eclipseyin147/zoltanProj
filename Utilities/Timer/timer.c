@@ -17,7 +17,9 @@ extern "C" {
 #include <stdio.h>
 #include <string.h>
 #include <mpi.h>
-
+#include <unistd.h>
+//#include <bits/confname.h>
+#include <unistd.h>
 #include "timer.h"
 #include "zoltan_util.h"
 #ifdef __PUMAGON__
@@ -70,7 +72,9 @@ double Zoltan_Time(int timer)
   else if (timer==ZOLTAN_TIME_USER) {
     struct tms tm;
     if (secs_per_tick == 0.)
+#if WIN32
       secs_per_tick = (double) 1. / ((double) sysconf(_SC_CLK_TCK));
+#endif
     times(&tm);
     t = tm.tms_utime * secs_per_tick;
   }
@@ -95,7 +99,9 @@ double Zoltan_Time_Resolution(int timer)
     t = (double) 1. / ((double) CLOCKS_PER_SEC);
 #ifndef NO_TIMES
   else if (timer==ZOLTAN_TIME_USER)
+#if WIN32
     t = (double) 1. / ((double) sysconf(_SC_CLK_TCK));
+#endif
 #endif 
 
   return t;

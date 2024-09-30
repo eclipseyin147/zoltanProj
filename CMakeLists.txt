@@ -7,7 +7,30 @@ set(CMAKE_INSTALL_MESSAGE LAZY)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DJSON_DIAGNOSTICS=1")
 
 
-project(zoltan LANGUAGES CXX C)
+
+project(Zoltan LANGUAGES CXX C)
+
+option(${PROJECT_NAME}_ENABLE_UINT_IDS "Enable unsigned int global IDs" OFF)
+if(${PROJECT_NAME}_ENABLE_UINT_IDS)
+    add_definitions(-DUNSIGNED_INT_GLOBAL_IDS)
+#    add_definitions(-DZOLTAN_ID_TYPE="typedef unsigned int ZOLTAN_ID_TYPE")
+endif()
+
+# For unsigned long ZOLTAN_ID_TYPE
+option(${PROJECT_NAME}_ENABLE_ULONG_IDS "Enable unsigned long global IDs" OFF)
+if(${PROJECT_NAME}_ENABLE_ULONG_IDS)
+    add_definitions(-DUNSIGNED_LONG_GLOBAL_IDS)
+#    add_definitions(-DZOLTAN_ID_TYPE="typedef unsigned long ZOLTAN_ID_TYPE")
+endif()
+
+# For unsigned long long ZOLTAN_ID_TYPE
+option(${PROJECT_NAME}_ENABLE_ULLONG_IDS "Enable unsigned long long global IDs" OFF)
+if(${PROJECT_NAME}_ENABLE_ULLONG_IDS)
+    add_definitions(-DUNSIGNED_LONG_LONG_GLOBAL_IDS)
+#    add_definitions(-DZOLTAN_ID_TYPE="typedef unsigned long long ZOLTAN_ID_TYPE")
+endif()
+
+
 
 find_package(metis CONFIG REQUIRED)
 find_package(parmetis CONFIG REQUIRED)
