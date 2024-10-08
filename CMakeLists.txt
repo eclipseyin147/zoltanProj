@@ -10,6 +10,16 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DJSON_DIAGNOSTICS=1")
 
 project(Zoltan LANGUAGES CXX C)
 
+option(${PROJECT_NAME}_ENABLE_Scotch "Enable scotch support" OFF)
+set(HAVE_SCOTCH ${${PROJECT_NAME}_ENABLE_SCOTCH})
+if(${PROJECT_NAME}_ENABLE_SCOTCH)
+    add_definitions(-DHAVE_SCOTCH)
+endif()
+
+add_definitions(-DHAVE_MPI)
+add_definitions(-DTPL_ENABLE_MPI)
+
+
 option(${PROJECT_NAME}_ENABLE_UINT_IDS "Enable unsigned int global IDs" OFF)
 if(${PROJECT_NAME}_ENABLE_UINT_IDS)
     add_definitions(-DUNSIGNED_INT_GLOBAL_IDS)
@@ -35,6 +45,7 @@ endif()
 find_package(metis CONFIG REQUIRED)
 find_package(parmetis CONFIG REQUIRED)
 find_package(MPI REQUIRED)
+find_package(ptscotch CONFIG REQUIRED)
 
 
 
@@ -773,20 +784,24 @@ if(WIN32)
             MPI::MPI_C
             metis
             PThreads4W::PThreads4W
-            parmetis
+            SCOTCH::scotch
+            SCOTCH::scotcherr
+            SCOTCH::scotcherrexit
+            SCOTCH::ptscotch
+            SCOTCH::ptscotcherr
     )
-
 elseif (UNIX)
-
   target_link_libraries(${PROJECT_NAME}
           MPI::MPI_CXX
           MPI::MPI_C
           metis
-          parmetis
+          Threads::Threads
+          SCOTCH::scotch
+          SCOTCH::scotcherr
+          SCOTCH::ptscotch
+          SCOTCH::scotcherrexit
+          SCOTCH::ptscotcherr
   )
-
-
-
 endif ()
 
 
