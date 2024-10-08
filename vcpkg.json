@@ -8,13 +8,13 @@
       "version>=": "2022-07-27"
     },
     {
-      "name": "parmetis",
-      "version>=": "2022-07-27"
-    },
-    {
       "name": "pthreads",
       "version>=": "3.0.0#14"
     },
-    "ptscotch"
+    "ptscotch",
+    {
+      "name": "msmpi",
+      "version>=": "10.1.12498#4"
+    }
   ]
 }

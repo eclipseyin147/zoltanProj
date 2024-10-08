@@ -43,7 +43,6 @@ endif()
 
 
 find_package(metis CONFIG REQUIRED)
-find_package(parmetis CONFIG REQUIRED)
 find_package(MPI REQUIRED)
 find_package(ptscotch CONFIG REQUIRED)
 
