@@ -10,11 +10,13 @@ set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DJSON_DIAGNOSTICS=1")
 
 project(Zoltan LANGUAGES CXX C)
 
-option(${PROJECT_NAME}_ENABLE_Scotch "Enable scotch support" OFF)
+option(${PROJECT_NAME}_ENABLE_SCOTCH "Enable scotch support" OFF)
 set(HAVE_SCOTCH ${${PROJECT_NAME}_ENABLE_SCOTCH})
 if(${PROJECT_NAME}_ENABLE_SCOTCH)
     add_definitions(-DHAVE_SCOTCH)
 endif()
+
+
 
 add_definitions(-DHAVE_MPI)
 add_definitions(-DTPL_ENABLE_MPI)
