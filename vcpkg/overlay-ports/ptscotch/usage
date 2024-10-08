@@ -1,0 +1,9 @@
+ptscotch provides CMake targets:
+
+find_package(ptscotch CONFIG REQUIRED)
+target_link_libraries(Zoltan PRIVATE
+ SCOTCH::scotch
+             SCOTCH::scotcherr
+             SCOTCH::scotcherrexit
+             SCOTCH::ptscotch
+             SCOTCH::ptscotcherr)
