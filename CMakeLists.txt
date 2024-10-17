@@ -745,33 +745,61 @@ list(APPEND SOURCES ${ZZ_SOURCES})
 #
 # C) Define the targets for package's library(s)
 #
+if(WIN32)
+    set(ZOLTAN_HEADERS
+            ${PROJECT_SOURCE_DIR}/include
+            ${PROJECT_SOURCE_DIR}/all
+            ${PROJECT_SOURCE_DIR}/coloring
+            ${PROJECT_SOURCE_DIR}/graph
+            ${PROJECT_SOURCE_DIR}/ha
+            ${PROJECT_SOURCE_DIR}/hier
+            ${PROJECT_SOURCE_DIR}/hsfc
+            ${PROJECT_SOURCE_DIR}/lb
+            ${PROJECT_SOURCE_DIR}/matrix
+            ${PROJECT_SOURCE_DIR}/order
+            ${PROJECT_SOURCE_DIR}/par
+            ${PROJECT_SOURCE_DIR}/params
+            ${PROJECT_SOURCE_DIR}/tpls
+            ${PROJECT_SOURCE_DIR}/phg
+            ${PROJECT_SOURCE_DIR}/rcb
+            ${PROJECT_SOURCE_DIR}/reftree
+            ${PROJECT_SOURCE_DIR}/simple
+            ${PROJECT_SOURCE_DIR}/timer
+            ${PROJECT_SOURCE_DIR}/Utilities/Communication
+            ${PROJECT_SOURCE_DIR}/Utilities/DDirectory
+            ${PROJECT_SOURCE_DIR}/Utilities/Timer
+            ${PROJECT_SOURCE_DIR}/Utilities/shared
+            ${PROJECT_SOURCE_DIR}/zz
+            ${PROJECT_SOURCE_DIR}/win_interface/include
+    )
+elseif (UNIX)
+    set(ZOLTAN_HEADERS
+            ${PROJECT_SOURCE_DIR}/include
+            ${PROJECT_SOURCE_DIR}/all
+            ${PROJECT_SOURCE_DIR}/coloring
+            ${PROJECT_SOURCE_DIR}/graph
+            ${PROJECT_SOURCE_DIR}/ha
+            ${PROJECT_SOURCE_DIR}/hier
+            ${PROJECT_SOURCE_DIR}/hsfc
+            ${PROJECT_SOURCE_DIR}/lb
+            ${PROJECT_SOURCE_DIR}/matrix
+            ${PROJECT_SOURCE_DIR}/order
+            ${PROJECT_SOURCE_DIR}/par
+            ${PROJECT_SOURCE_DIR}/params
+            ${PROJECT_SOURCE_DIR}/tpls
+            ${PROJECT_SOURCE_DIR}/phg
+            ${PROJECT_SOURCE_DIR}/rcb
+            ${PROJECT_SOURCE_DIR}/reftree
+            ${PROJECT_SOURCE_DIR}/simple
+            ${PROJECT_SOURCE_DIR}/timer
+            ${PROJECT_SOURCE_DIR}/Utilities/Communication
+            ${PROJECT_SOURCE_DIR}/Utilities/DDirectory
+            ${PROJECT_SOURCE_DIR}/Utilities/Timer
+            ${PROJECT_SOURCE_DIR}/Utilities/shared
+            ${PROJECT_SOURCE_DIR}/zz
+    )
+endif ()
 
-set(ZOLTAN_HEADERS
-        ${PROJECT_SOURCE_DIR}/include
-        ${PROJECT_SOURCE_DIR}/all
-        ${PROJECT_SOURCE_DIR}/coloring
-        ${PROJECT_SOURCE_DIR}/graph
-        ${PROJECT_SOURCE_DIR}/ha
-        ${PROJECT_SOURCE_DIR}/hier
-        ${PROJECT_SOURCE_DIR}/hsfc
-        ${PROJECT_SOURCE_DIR}/lb
-        ${PROJECT_SOURCE_DIR}/matrix
-        ${PROJECT_SOURCE_DIR}/order
-        ${PROJECT_SOURCE_DIR}/par
-        ${PROJECT_SOURCE_DIR}/params
-        ${PROJECT_SOURCE_DIR}/tpls
-        ${PROJECT_SOURCE_DIR}/phg
-        ${PROJECT_SOURCE_DIR}/rcb
-        ${PROJECT_SOURCE_DIR}/reftree
-        ${PROJECT_SOURCE_DIR}/simple
-        ${PROJECT_SOURCE_DIR}/timer
-        ${PROJECT_SOURCE_DIR}/Utilities/Communication
-        ${PROJECT_SOURCE_DIR}/Utilities/DDirectory
-        ${PROJECT_SOURCE_DIR}/Utilities/Timer
-        ${PROJECT_SOURCE_DIR}/Utilities/shared
-        ${PROJECT_SOURCE_DIR}/zz
-        ${PROJECT_SOURCE_DIR}/win_interface/include
-)
 file(GLOB_RECURSE EXPORT_HEADERS
         "${PROJECT_SOURCE_DIR}/include/*.h"
 )
