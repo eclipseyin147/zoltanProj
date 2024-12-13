@@ -11,7 +11,11 @@
       "name": "pthreads",
       "version>=": "3.0.0#14"
     },
-    "ptscotch",
+    {
+      "name": "scotch",
+      "version>=": "7.0.5#1",
+      "features": ["ptscotch"]
+    },
     {
       "name": "msmpi",
       "version>=": "10.1.12498#4"

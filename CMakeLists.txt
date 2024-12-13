@@ -46,7 +46,7 @@ endif()
 
 find_package(metis CONFIG REQUIRED)
 find_package(MPI REQUIRED)
-find_package(ptscotch CONFIG REQUIRED)
+find_package(scotch CONFIG REQUIRED)
 
 
 
