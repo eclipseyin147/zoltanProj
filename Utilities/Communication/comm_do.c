@@ -170,6 +170,11 @@ char *recv_data)		/* array of data I'll own after comm */
 	    k = 0;
 	    for (i = 0; i < plan->nrecvs + plan->self_msg; i++) {
 		if (plan->procs_from[i] != my_proc) {
+            size_t res = (size_t)(plan->starts_from[i]) * (size_t)nbytes;
+            if(res<0)
+            {
+                std::cout<<" start from * nBytes exceeds max size_t :"<< res<<std::endl;
+            }
 		    MPI_Irecv((void *)
                               &plan->recv_buff[(size_t)(plan->starts_from[i]) * (size_t)nbytes],
 			      plan->lengths_from[i] * nbytes,
@@ -245,6 +250,11 @@ char *recv_data)		/* array of data I'll own after comm */
 	if (plan->indices_to == NULL) {	/* data already blocked by processor. */
 	    for (i = proc_index, j = 0; j < nblocks; j++) {
 		if (plan->procs_to[i] != my_proc) {
+            size_t tRes = (size_t)(plan->starts_to[i]) * (size_t)nbytes;
+            if(tRes<0)
+            {
+                std::cout<<"Negative found on "<<__LINE__<<std::endl;
+            }
 		    MPI_Rsend((void *) &send_data[(size_t)(plan->starts_to[i]) * (size_t)nbytes],
 			      plan->lengths_to[i] * nbytes,
 			      (MPI_Datatype) MPI_BYTE, plan->procs_to[i], tag,
@@ -275,6 +285,11 @@ char *recv_data)		/* array of data I'll own after comm */
 		    offset = 0;
 		    j = plan->starts_to[i];
 		    for (k = 0; k < plan->lengths_to[i]; k++) {
+                size_t tRes = (size_t)(plan->indices_to[j++]) * (size_t)nbytes;
+                if(tRes<0)
+                {
+                    std::cout<<"Negative found on "<<__LINE__<<std::endl;
+                }
 			memcpy(&send_buff[offset],
 			       &send_data[(size_t)(plan->indices_to[j++]) * (size_t)nbytes], nbytes);
 			offset += nbytes;
@@ -306,6 +321,11 @@ char *recv_data)		/* array of data I'll own after comm */
 
 		if (plan->procs_to[i] != my_proc) {
                     if (plan->sizes_to[i]) {
+                 size_t res =    (size_t)(plan->starts_to_ptr[i]) * (size_t)nbytes;
+                 if(res<0)
+                 {
+                     std::cout<<"Negative found on "<<__LINE__<<std::endl;
+                 }
 		        MPI_Rsend((void *)
                                   &send_data[(size_t)(plan->starts_to_ptr[i]) * (size_t)nbytes],
 			          plan->sizes_to[i] * nbytes,
@@ -349,6 +369,7 @@ char *recv_data)		/* array of data I'll own after comm */
 			j++;
 		    }
                     if (plan->sizes_to[i]) {
+
 		        MPI_Rsend((void *) send_buff, 
                                   plan->sizes_to[i] * nbytes,
 		                  (MPI_Datatype) MPI_BYTE, plan->procs_to[i],
