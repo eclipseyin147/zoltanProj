@@ -173,7 +173,7 @@ char *recv_data)		/* array of data I'll own after comm */
             size_t res = (size_t)(plan->starts_from[i]) * (size_t)nbytes;
             if(res<0)
             {
-                std::cout<<" start from * nBytes exceeds max size_t :"<< res<<std::endl;
+                printf("Negative found on %d\n", __LINE__);
             }
 		    MPI_Irecv((void *)
                               &plan->recv_buff[(size_t)(plan->starts_from[i]) * (size_t)nbytes],
