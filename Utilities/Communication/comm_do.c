@@ -94,10 +94,10 @@ char *recv_data)		/* array of data I'll own after comm */
 {
     char     *send_buff;	/* space to buffer outgoing data */
     int       my_proc;		/* processor ID */
-    size_t    self_recv_address = 0;/* where in recv_data self info starts */
+    uint64_t    self_recv_address = 0;/* where in recv_data self info starts */
     int       self_num=0;       /* where in send list my_proc appears */
-    size_t    offset;		/* offset into array I'm copying into */
-    int       self_index = 0;	/* send offset for data I'm keeping */
+    uint64_t    offset;		/* offset into array I'm copying into */
+    uint64_t      self_index = 0;	/* send offset for data I'm keeping */
     int       out_of_mem;	/* am I out of memory? */
     int       nblocks;		/* number of procs who need my data */
     int       proc_index;	/* loop counter over procs to send to */
@@ -170,11 +170,6 @@ char *recv_data)		/* array of data I'll own after comm */
 	    k = 0;
 	    for (i = 0; i < plan->nrecvs + plan->self_msg; i++) {
 		if (plan->procs_from[i] != my_proc) {
-            size_t res = (size_t)(plan->starts_from[i]) * (size_t)nbytes;
-            if(res<0)
-            {
-                printf("Negative found on %d\n", __LINE__);
-            }
 		    MPI_Irecv((void *)
                               &plan->recv_buff[(size_t)(plan->starts_from[i]) * (size_t)nbytes],
 			      plan->lengths_from[i] * nbytes,
@@ -250,12 +245,7 @@ char *recv_data)		/* array of data I'll own after comm */
 	if (plan->indices_to == NULL) {	/* data already blocked by processor. */
 	    for (i = proc_index, j = 0; j < nblocks; j++) {
 		if (plan->procs_to[i] != my_proc) {
-            size_t tRes = (size_t)(plan->starts_to[i]) * (size_t)nbytes;
-            if(tRes<0)
-            {
-                printf("Negative found on %d\n", __LINE__);
-            }
-		    MPI_Rsend((void *) &send_data[(size_t)(plan->starts_to[i]) * (size_t)nbytes],
+		    MPI_Rsend((void *) &send_data[(uint64_t)(plan->starts_to[i]) * (uint64_t)nbytes],
 			      plan->lengths_to[i] * nbytes,
 			      (MPI_Datatype) MPI_BYTE, plan->procs_to[i], tag,
 			      plan->comm);
@@ -273,7 +263,7 @@ char *recv_data)		/* array of data I'll own after comm */
 		   overlapped. */
 		memmove(
                   plan->recv_buff+self_recv_address,
-                  send_data+(size_t)(plan->starts_to[self_num])*(size_t)nbytes,
+                  send_data+(uint64_t)(plan->starts_to[self_num])*(uint64_t)nbytes,
                   (size_t) (plan->lengths_to[self_num]) * (size_t) nbytes);
 	    }
 	}
@@ -285,13 +275,8 @@ char *recv_data)		/* array of data I'll own after comm */
 		    offset = 0;
 		    j = plan->starts_to[i];
 		    for (k = 0; k < plan->lengths_to[i]; k++) {
-                size_t tRes = (size_t)(plan->indices_to[j++]) * (size_t)nbytes;
-                if(tRes<0)
-                {
-                    printf("Negative found on %d\n", __LINE__);
-                }
 			memcpy(&send_buff[offset],
-			       &send_data[(size_t)(plan->indices_to[j++]) * (size_t)nbytes], nbytes);
+			       &send_data[(uint64_t)(plan->indices_to[j++]) * (size_t)nbytes], nbytes);
 			offset += nbytes;
 		    }
 		    MPI_Rsend((void *) send_buff, plan->lengths_to[i] * nbytes,
@@ -307,7 +292,7 @@ char *recv_data)		/* array of data I'll own after comm */
 	    if (plan->self_msg) {	/* Copy data to self. */
 		for (k = 0; k < plan->lengths_to[self_num]; k++) {
 		    memcpy(&plan->recv_buff[self_recv_address],
-		      &send_data[(size_t)(plan->indices_to[self_index++]) * (size_t)nbytes], nbytes);
+		      &send_data[(uint64_t)(plan->indices_to[self_index++]) * (size_t)nbytes], nbytes);
 		    self_recv_address += nbytes;
 		}
 	    }
@@ -321,13 +306,8 @@ char *recv_data)		/* array of data I'll own after comm */
 
 		if (plan->procs_to[i] != my_proc) {
                     if (plan->sizes_to[i]) {
-                 size_t res =  (size_t)(plan->starts_to_ptr[i]) * (size_t)nbytes;
-                 if(res<0)
-                 {
-                     printf("Negative found on %d\n", __LINE__);
-                 }
 		        MPI_Rsend((void *)
-                                  &send_data[(size_t)(plan->starts_to_ptr[i]) * (size_t)nbytes],
+                                  &send_data[(uint64_t)(plan->starts_to_ptr[i]) * (size_t)nbytes],
 			          plan->sizes_to[i] * nbytes,
 			          (MPI_Datatype) MPI_BYTE, plan->procs_to[i],
 			          tag, plan->comm);
@@ -362,14 +342,13 @@ char *recv_data)		/* array of data I'll own after comm */
 		    for (k = 0; k < plan->lengths_to[i]; k++) {
                         if (plan->sizes[plan->indices_to[j]]) {
 			    memcpy(&send_buff[offset],
-			       &send_data[(size_t)(plan->indices_to_ptr[j]) * (size_t)nbytes],
+			       &send_data[(uint64_t)(plan->indices_to_ptr[j]) * (size_t)nbytes],
 			       (size_t)(plan->sizes[plan->indices_to[j]]) * (size_t)nbytes);
 			    offset += (size_t)(plan->sizes[plan->indices_to[j]]) * (size_t)nbytes;
                         }
 			j++;
 		    }
                     if (plan->sizes_to[i]) {
-
 		        MPI_Rsend((void *) send_buff, 
                                   plan->sizes_to[i] * nbytes,
 		                  (MPI_Datatype) MPI_BYTE, plan->procs_to[i],
@@ -385,9 +364,9 @@ char *recv_data)		/* array of data I'll own after comm */
                 if (plan->sizes_to[self_num]) {
 		    j = plan->starts_to[self_num];
 		    for (k = 0; k < plan->lengths_to[self_num]; k++) {
-		        int kk = plan->indices_to_ptr[j];
+                uint64_t kk = plan->indices_to_ptr[j];
                         char* lrecv = &plan->recv_buff[self_recv_address];
-                        size_t send_idx = (size_t)kk * (size_t)nbytes;
+                       uint64_t send_idx = (size_t)kk * (size_t)nbytes;
                         char* lsend = &send_data[send_idx];
                         int sindex = plan->sizes[plan->indices_to[j]], idx;
                         for (idx=0; idx<nbytes; idx++) {
@@ -395,7 +374,7 @@ char *recv_data)		/* array of data I'll own after comm */
                             lrecv += sindex;
                             lsend += sindex;
                         }
-		        self_recv_address += (size_t)(plan->sizes[plan->indices_to[j]])
+		        self_recv_address += (uint64_t)(plan->sizes[plan->indices_to[j]])
                                            * (size_t) nbytes;
 		        j++;
 		    }
