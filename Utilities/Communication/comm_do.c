@@ -253,7 +253,7 @@ char *recv_data)		/* array of data I'll own after comm */
             size_t tRes = (size_t)(plan->starts_to[i]) * (size_t)nbytes;
             if(tRes<0)
             {
-                std::cout<<"Negative found on "<<__LINE__<<std::endl;
+                printf("Negative found on %d\n", __LINE__);
             }
 		    MPI_Rsend((void *) &send_data[(size_t)(plan->starts_to[i]) * (size_t)nbytes],
 			      plan->lengths_to[i] * nbytes,
@@ -288,7 +288,7 @@ char *recv_data)		/* array of data I'll own after comm */
                 size_t tRes = (size_t)(plan->indices_to[j++]) * (size_t)nbytes;
                 if(tRes<0)
                 {
-                    std::cout<<"Negative found on "<<__LINE__<<std::endl;
+                    printf("Negative found on %d\n", __LINE__);
                 }
 			memcpy(&send_buff[offset],
 			       &send_data[(size_t)(plan->indices_to[j++]) * (size_t)nbytes], nbytes);
@@ -321,10 +321,10 @@ char *recv_data)		/* array of data I'll own after comm */
 
 		if (plan->procs_to[i] != my_proc) {
                     if (plan->sizes_to[i]) {
-                 size_t res =    (size_t)(plan->starts_to_ptr[i]) * (size_t)nbytes;
+                 size_t res =  (size_t)(plan->starts_to_ptr[i]) * (size_t)nbytes;
                  if(res<0)
                  {
-                     std::cout<<"Negative found on "<<__LINE__<<std::endl;
+                     printf("Negative found on %d\n", __LINE__);
                  }
 		        MPI_Rsend((void *)
                                   &send_data[(size_t)(plan->starts_to_ptr[i]) * (size_t)nbytes],
