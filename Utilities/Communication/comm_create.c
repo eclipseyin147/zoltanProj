@@ -35,11 +35,11 @@ int      *pnvals_recv)		/* returned # vals I own after communication */
     int      *starts=NULL;	/* pointers into list of vals for procs */
     int      *lengths_to=NULL;	/* lengths of messages I'll send */
     int      *procs_to=NULL;	/* processors I'll send to */
-    int      *indices_to=NULL;	/* local_id values I'll be sending */
-    int      *starts_to=NULL;	/* where in list my sends begin */
+    size_t   *indices_to=NULL;	/* local_id values I'll be sending */
+    size_t   *starts_to=NULL;	/* where in list my sends begin */
     int      *lengths_from=NULL;	/* lengths of messages I'll receive */
     int      *procs_from=NULL;	/* processors I'll receive from */
-    int      *starts_from=NULL;	/* pointers for where to put recv data */
+    size_t   *starts_from=NULL;	/* pointers for where to put recv data */
     int       my_proc;		/* my processor tag in communicator */
     int       nprocs;		/* number of  processors in communicator */
     int       max_send_size =0;	/* size of longest message I send */
@@ -116,7 +116,7 @@ int      *pnvals_recv)		/* returned # vals I own after communication */
 	}
 	indices_to = NULL;
 	lengths_to = (int *) ZOLTAN_MALLOC(nsends * sizeof(int));
-	starts_to = (int *) ZOLTAN_MALLOC(nsends * sizeof(int));
+	starts_to = (size_t *) ZOLTAN_MALLOC(nsends * sizeof(size_t));
 	procs_to = (int *) ZOLTAN_MALLOC(nsends * sizeof(int));
         if (nsends != 0 && (lengths_to == NULL || starts_to == NULL ||
 			    procs_to == NULL)) {
@@ -162,7 +162,7 @@ int      *pnvals_recv)		/* returned # vals I own after communication */
 
 	starts[0] = 0;
 
-	indices_to = (int *) ZOLTAN_MALLOC(nactive * sizeof(int));
+	indices_to = (size_t *) ZOLTAN_MALLOC(nactive * sizeof(size_t));
 
         if (nactive != 0 && indices_to == NULL) {
 	    out_of_mem = TRUE;
@@ -188,7 +188,7 @@ int      *pnvals_recv)		/* returned # vals I own after communication */
 	/* Construct lengths_to, starts_to and procs_to arrays. */
 	/* Note: If indices_to is needed, procs are in increasing order */
 	lengths_to = (int *) ZOLTAN_MALLOC(nsends * sizeof(int));
-	starts_to = (int *) ZOLTAN_MALLOC(nsends * sizeof(int));
+	starts_to = (size_t *) ZOLTAN_MALLOC(nsends * sizeof(size_t));
 	procs_to = (int *) ZOLTAN_MALLOC(nsends * sizeof(int));
         if (nsends != 0 && (lengths_to == NULL || starts_to == NULL ||
 			    procs_to == NULL)) {
@@ -223,7 +223,7 @@ Mem_Err:
 	       &lengths_from, &procs_from, &nrecvs, my_proc, nprocs,
 	       out_of_mem,tag, comm);
 
-    starts_from = (int *) ZOLTAN_MALLOC((nrecvs + self_msg) * sizeof(int));
+    starts_from = (size_t *) ZOLTAN_MALLOC((nrecvs + self_msg) * sizeof(size_t));
     if (starts_from == NULL && nrecvs + self_msg != 0) {
 	comm_flag = ZOLTAN_MEMERR;
     }

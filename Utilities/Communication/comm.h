@@ -49,13 +49,13 @@ struct Zoltan_Comm_Obj {	/* data for mapping between decompositions */
     int      *lengths_from;     /* # items I recv in my messages */
 
     /* Following arrays used if send/recv data is packed contiguously */
-    int      *starts_to;	/* where in item lists each send starts */
-    int      *starts_from;	/* where in item lists each recv starts */
+    size_t   *starts_to;	/* where in item lists each send starts */
+    size_t   *starts_from;	/* where in item lists each recv starts */
 
     /* Following arrays used is send/recv data not packed contiguously */
-    int      *indices_to;       /* indices of items I send in my msgs */
+    size_t   *indices_to;       /* indices of items I send in my msgs */
 				/* ordered consistent with lengths_to */
-    int      *indices_from;     /* indices for where to put arriving data */
+    size_t   *indices_from;     /* indices for where to put arriving data */
 				/* ordered consistent with lengths_from */
 
     /* Above information is sufficient if items are all of the same size */
@@ -68,13 +68,13 @@ struct Zoltan_Comm_Obj {	/* data for mapping between decompositions */
     int      *sizes_from;       /* size of each msg to recv (if items vary) */
 
     /* Following used if send/recv data is packed contiguously & items vary */
-    int      *starts_to_ptr;	/* where in dense array sends starts */
-    int      *starts_from_ptr;	/* where in dense each recv starts */
+    size_t   *starts_to_ptr;	/* where in dense array sends starts */
+    size_t   *starts_from_ptr;	/* where in dense each recv starts */
 
     /* Following used is send/recv data not packed contiguously & items vary */
-    int      *indices_to_ptr;   /* where to find items I send in my msgs */
+    size_t   *indices_to_ptr;   /* where to find items I send in my msgs */
 				/* ordered consistent with lengths_to */
-    int      *indices_from_ptr; /* where to find items I recv */
+    size_t   *indices_from_ptr; /* where to find items I recv */
 				/* ordered consistent with lengths_from */
 
     /* Note: ALL above arrays include data for self-msg */
@@ -83,8 +83,8 @@ struct Zoltan_Comm_Obj {	/* data for mapping between decompositions */
     int       nvals_recv;	/* number of values I own after remapping */
     int       nrecvs;		/* number of msgs I'll recv (w/o self_msg) */
     int       nsends;		/* number of msgs I'll send (w/o self_msg) */
-    int       nindices_to;
-    int       nindices_from;
+    size_t    nindices_to;
+    size_t    nindices_from;
     int       self_msg;		/* do I have data for myself? */
     int       max_send_size;	/* size of longest message I send (w/o self) */
     int       total_recv_size;	/* total amount of data I'll recv (w/ self) */

@@ -364,7 +364,7 @@ char *recv_data)		/* array of data I'll own after comm */
                 if (plan->sizes_to[self_num]) {
 		    j = plan->starts_to[self_num];
 		    for (k = 0; k < plan->lengths_to[self_num]; k++) {
-		        int kk = plan->indices_to_ptr[j];
+		        size_t kk = plan->indices_to_ptr[j];
                         char* lrecv = &plan->recv_buff[self_recv_address];
                         size_t send_idx = (size_t)kk * (size_t)nbytes;
                         char* lsend = &send_data[send_idx];
@@ -476,7 +476,7 @@ char *recv_data)		/* array of data I'll own after comm */
   int *inbufCounts=NULL, *inbufOffsets=NULL;
   int nprocs, me, i, j, k, p, sorted;
   int nSendMsgs, nSendItems, nRecvMsgs, nRecvItems;
-  int length, offset, itemSize, outbufLen;
+  size_t length, itemSize, outbufLen, offset;
 
   int sm = (plan->self_msg > 0) ? 1 : 0;
 
