@@ -94,10 +94,10 @@ char *recv_data)		/* array of data I'll own after comm */
 {
     char     *send_buff;	/* space to buffer outgoing data */
     int       my_proc;		/* processor ID */
-    size_t    self_recv_address = 0;/* where in recv_data self info starts */
+    uint64_t    self_recv_address = 0;/* where in recv_data self info starts */
     int       self_num=0;       /* where in send list my_proc appears */
-    size_t    offset;		/* offset into array I'm copying into */
-    int       self_index = 0;	/* send offset for data I'm keeping */
+    uint64_t    offset;		/* offset into array I'm copying into */
+    uint64_t      self_index = 0;	/* send offset for data I'm keeping */
     int       out_of_mem;	/* am I out of memory? */
     int       nblocks;		/* number of procs who need my data */
     int       proc_index;	/* loop counter over procs to send to */
@@ -245,6 +245,11 @@ char *recv_data)		/* array of data I'll own after comm */
 	if (plan->indices_to == NULL) {	/* data already blocked by processor. */
 	    for (i = proc_index, j = 0; j < nblocks; j++) {
 		if (plan->procs_to[i] != my_proc) {
+            size_t tRes = (size_t)(plan->starts_to[i]) * (size_t)nbytes;
+            if(tRes<0)
+            {
+                printf("Negative found on %d\n", __LINE__);
+            }
 		    MPI_Rsend((void *) &send_data[(size_t)(plan->starts_to[i]) * (size_t)nbytes],
 			      plan->lengths_to[i] * nbytes,
 			      (MPI_Datatype) MPI_BYTE, plan->procs_to[i], tag,
